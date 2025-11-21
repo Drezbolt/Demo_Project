@@ -1,478 +1,213 @@
-import React, { useState } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UrbanFlex Store</title>
 
-// UrbanFlexPrototype.jsx
-// Single-file React prototype (Tailwind CSS classes used)
-// Default export: a complete, client-side prototype with Home, Products, Categories, About pages,
-// product detail view, category filtering, and a simple cart. Address and phone fields are left blank.
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+    }
 
-export default function UrbanFlexPrototype() {
-  const initialProducts = [
-    {
-      id: "p1",
-      title: "Premium Cotton Hoodie",
-      category: "Casual Wear",
-      price: 45.99,
-      image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=60",
-      description:
-        "100% organic cotton hoodie. Relaxed fit, drawstring hood, front pocket. Cozy and breathable.",
-      stock: 24,
-    },
-    {
-      id: "p2",
-      title: "Performance Running Shoes",
-      category: "Sportswear",
-      price: 89.99,
-      image:
-        "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=60",
-      description:
-        "Advanced cushioning, breathable mesh upper, grippy outsole — built for running and everyday comfort.",
-      stock: 15,
-    },
-    {
-      id: "p3",
-      title: "Flex Jogger Pants",
-      category: "Casual Wear",
-      price: 34.99,
-      image:
-        "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&q=60",
-      description:
-        "Stretch fabric, elastic waistband, tapered ankle — great for workouts or chilling at home.",
-      stock: 32,
-    },
-    {
-      id: "p4",
-      title: "Yoga Performance Set",
-      category: "Sportswear",
-      price: 52.99,
-      image:
-        "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=800&q=60",
-      description:
-        "Two-piece set with moisture-wicking fabric and compression fit for yoga and mobility.",
-      stock: 18,
-    },
-    {
-      id: "p5",
-      title: "Classic Cotton T-Shirt",
-      category: "Casual Wear",
-      price: 19.99,
-      image:
-        "https://images.unsplash.com/photo-1520975919459-cca7e7a8a2b6?w=800&q=60",
-      description: "Everyday cotton tee with a clean cut and great drape.",
-      stock: 45,
-    },
-  ];
+    /* Navbar */
+    header {
+        background: #ffffff;
+        padding: 15px 25px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-  const [page, setPage] = useState("home"); // 'home' | 'products' | 'categories' | 'about' | 'checkout'
-  const [products] = useState(initialProducts);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [query, setQuery] = useState("");
-  const [detail, setDetail] = useState(null);
-  const [cart, setCart] = useState([]);
+    header h1 {
+        margin: 0;
+        font-size: 22px;
+        color: #0077cc;
+        font-weight: bold;
+    }
 
-  const categories = ["All", ...Array.from(new Set(products.map((p) => p.category)))];
+    nav a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #555;
+        font-size: 15px;
+        font-weight: 600;
+    }
 
-  function addToCart(product, qty = 1) {
-    setCart((prev) => {
-      const found = prev.find((c) => c.id === product.id);
-      if (found) {
-        return prev.map((c) => (c.id === product.id ? { ...c, qty: c.qty + qty } : c));
-      }
-      return [...prev, { id: product.id, title: product.title, price: product.price, qty }];
-    });
-  }
+    nav a:hover {
+        color: #0077cc;
+    }
 
-  function removeFromCart(productId) {
-    setCart((prev) => prev.filter((c) => c.id !== productId));
-  }
+    /* Sections */
+    section {
+        padding: 50px 20px;
+        max-width: 1100px;
+        margin: auto;
+    }
 
-  function updateQty(productId, delta) {
-    setCart((prev) =>
-      prev
-        .map((c) => (c.id === productId ? { ...c, qty: Math.max(1, c.qty + delta) } : c))
-        .filter((c) => c.qty > 0)
-    );
-  }
+    .hero {
+        background: linear-gradient(to right, #0077cc, #005fa3);
+        color: white;
+        text-align: center;
+        padding: 70px 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
 
-  function clearCart() {
-    setCart([]);
-  }
+    .btn {
+        background: white;
+        color: #0077cc;
+        padding: 10px 20px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
 
-  const filtered = products.filter((p) => {
-    const matchCategory = selectedCategory === "All" || p.category === selectedCategory;
-    const matchQuery = p.title.toLowerCase().includes(query.toLowerCase());
-    return matchCategory && matchQuery;
-  });
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
 
-  const subtotal = cart.reduce((s, it) => s + it.price * it.qty, 0);
-  const shipping = subtotal > 0 ? 5.99 : 0;
-  const tax = +(subtotal * 0.09).toFixed(2);
-  const total = +(subtotal + shipping + tax).toFixed(2);
+    .card {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
 
-  // Simple components to keep file tidy
-  const Nav = () => (
-    <header className="bg-white shadow sticky top-0 z-30">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="text-2xl">👕</div>
-          <div className="font-bold text-xl text-sky-600">UrbanFlex</div>
-        </div>
-        <nav className="flex items-center gap-6">
-          <button
-            className={`text-sm font-medium ${page === "home" ? "text-sky-600" : "text-gray-600"}`}
-            onClick={() => setPage("home")}
-          >
-            Home
-          </button>
-          <button
-            className={`text-sm font-medium ${page === "products" ? "text-sky-600" : "text-gray-600"}`}
-            onClick={() => setPage("products")}
-          >
-            Products
-          </button>
-          <button
-            className={`text-sm font-medium ${page === "categories" ? "text-sky-600" : "text-gray-600"}`}
-            onClick={() => setPage("categories")}
-          >
-            Categories
-          </button>
-          <button
-            className={`text-sm font-medium ${page === "about" ? "text-sky-600" : "text-gray-600"}`}
-            onClick={() => setPage("about")}
-          >
-            About
-          </button>
+    .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
 
-          <div className="relative">
-            <button
-              onClick={() => setPage("checkout")}
-              className="bg-sky-600 text-white px-3 py-1 rounded-md text-sm"
-            >
-              Cart ({cart.reduce((a, c) => a + c.qty, 0)})
-            </button>
-          </div>
-        </nav>
-      </div>
-    </header>
-  );
+    .card h3 {
+        margin: 10px 0 5px;
+    }
 
-  const Home = () => (
-    <main className="max-w-6xl mx-auto px-4 py-10">
-      <section className="rounded-lg p-10 bg-gradient-to-r from-sky-600 to-sky-800 text-white text-center">
-        <h1 className="text-3xl font-bold">Style Meets Performance</h1>
-        <p className="mt-2 max-w-2xl mx-auto">Discover our premium collection of casual wear and high-performance sportswear for your active lifestyle.</p>
-        <div className="mt-6">
-          <button
-            className="bg-white text-sky-700 px-4 py-2 rounded-md font-semibold"
-            onClick={() => setPage("products")}
-          >
-            Start shopping
-          </button>
-        </div>
-      </section>
+    .footer {
+        background: #222;
+        color: white;
+        text-align: center;
+        padding: 25px;
+        margin-top: 40px;
+    }
 
-      <section className="mt-10">
-        <h2 className="text-2xl font-semibold mb-4">Featured Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.slice(0, 3).map((p) => (
-            <article key={p.id} className="bg-white p-4 rounded-lg shadow">
-              <img src={p.image} alt={p.title} className="w-full h-48 object-cover rounded" />
-              <div className="mt-3 flex justify-between items-start">
-                <div>
-                  <h3 className="font-semibold">{p.title}</h3>
-                  <p className="text-xs text-gray-500">{p.category}</p>
-                </div>
-                <div className="text-sky-600 font-bold">${p.price.toFixed(2)}</div>
-              </div>
-              <div className="mt-3 flex gap-2">
-                <button
-                  className="flex-1 bg-sky-600 text-white py-2 rounded"
-                  onClick={() => { setDetail(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                >
-                  View
-                </button>
-                <button
-                  className="flex-1 border border-sky-600 text-sky-600 py-2 rounded"
-                  onClick={() => addToCart(p)}
-                >
-                  Add
-                </button>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-    </main>
-  );
+    .footer p {
+        margin: 5px 0;
+    }
+</style>
 
-  const ProductsPage = () => (
-    <main className="max-w-6xl mx-auto px-4 py-10">
-      <div className="flex flex-col md:flex-row gap-6">
-        <aside className="md:w-64 bg-white p-4 rounded shadow">
-          <h3 className="font-semibold mb-3">Filters</h3>
-          <div className="mb-3">
-            <label className="block text-xs text-gray-500 mb-1">Search</label>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search products..."
-              className="w-full border px-2 py-2 rounded text-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs text-gray-500 mb-1">Category</label>
-            <div className="flex flex-col gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  className={`text-left text-sm py-1 rounded ${selectedCategory === cat ? 'bg-sky-100 font-semibold' : 'hover:bg-slate-50'}`}
-                  onClick={() => setSelectedCategory(cat)}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        <section className="flex-1">
-          <h2 className="text-2xl font-semibold mb-4">Products</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((p) => (
-              <article key={p.id} className="bg-white p-4 rounded shadow flex flex-col">
-                <img src={p.image} alt={p.title} className="w-full h-48 object-cover rounded" />
-                <div className="mt-3 flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold">{p.title}</h3>
-                    <p className="text-xs text-gray-500">{p.category}</p>
-                  </div>
-                  <div className="text-sky-600 font-bold">${p.price.toFixed(2)}</div>
-                </div>
-                <p className="mt-2 text-sm text-gray-600 flex-1">{p.description}</p>
-                <div className="mt-3 flex gap-2">
-                  <button
-                    className="flex-1 bg-sky-600 text-white py-2 rounded"
-                    onClick={() => setDetail(p)}
-                  >
-                    Details
-                  </button>
-                  <button
-                    className="flex-1 border border-sky-600 text-sky-600 py-2 rounded"
-                    onClick={() => addToCart(p)}
-                  >
-                    Add to cart
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      </div>
-    </main>
-  );
-
-  const CategoriesPage = () => (
-    <main className="max-w-4xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-semibold mb-4">Categories</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {categories.map((c) => (
-          <div
-            key={c}
-            className="p-4 bg-white rounded shadow flex items-center justify-between"
-          >
-            <div>
-              <h3 className="font-semibold">{c}</h3>
-              <p className="text-sm text-gray-500">{products.filter((p) => (c === 'All' ? true : p.category === c)).length} products</p>
-            </div>
-            <div>
-              <button
-                className="px-3 py-1 bg-sky-600 text-white rounded"
-                onClick={() => { setSelectedCategory(c); setPage('products'); }}
-              >
-                View
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
-
-  const AboutPage = () => (
-    <main className="max-w-4xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-semibold mb-4">About UrbanFlex</h2>
-      <div className="bg-white p-6 rounded shadow">
-        <p className="text-gray-700">UrbanFlex is a fictional store prototype built to demonstrate a small e-commerce UI.</p>
-        <div className="mt-4">
-          <h3 className="font-semibold">Contact</h3>
-          <ul className="text-sm text-gray-600 mt-2 space-y-1">
-            <li>Email: info@urbanflex.com</li>
-            <li>Phone: {/* left intentionally blank */} <span className="text-gray-400">(blank)</span></li>
-            <li>Address: <span className="text-gray-400">(blank)</span></li>
-          </ul>
-        </div>
-      </div>
-    </main>
-  );
-
-  const CheckoutPage = () => (
-    <main className="max-w-4xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-semibold mb-4">Checkout</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            // in a real app you'd validate and call an API
-            clearCart();
-            setPage('home');
-            alert('Order placed (prototype).');
-          }}
-          className="bg-white p-6 rounded shadow"
-        >
-          <h3 className="font-semibold mb-3">Shipping</h3>
-          <div className="mb-2">
-            <label className="text-sm block mb-1">Full name</label>
-            <input className="w-full border px-3 py-2 rounded" required />
-          </div>
-          <div className="mb-2">
-            <label className="text-sm block mb-1">Address</label>
-            <input className="w-full border px-3 py-2 rounded" required />
-          </div>
-          <div className="mb-2">
-            <label className="text-sm block mb-1">City</label>
-            <input className="w-full border px-3 py-2 rounded" required />
-          </div>
-
-          <h3 className="font-semibold mt-4 mb-2">Payment (demo)</h3>
-          <div className="mb-2">
-            <label className="text-sm block mb-1">Card number</label>
-            <input className="w-full border px-3 py-2 rounded" placeholder="1234 5678 9012 3456" required />
-          </div>
-
-          <button className="mt-4 bg-sky-600 text-white px-4 py-2 rounded" type="submit">Place Order</button>
-        </form>
-
-        <aside className="bg-white p-6 rounded shadow">
-          <h3 className="font-semibold mb-3">Order Summary</h3>
-          <div className="space-y-2">
-            {cart.map((it) => (
-              <div key={it.id} className="flex justify-between">
-                <div>
-                  <div className="font-medium">{it.title}</div>
-                  <div className="text-xs text-gray-500">qty: {it.qty}</div>
-                </div>
-                <div className="font-semibold">${(it.price * it.qty).toFixed(2)}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 border-t pt-3 text-sm">
-            <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-            <div className="flex justify-between"><span>Shipping</span><span>${shipping.toFixed(2)}</span></div>
-            <div className="flex justify-between"><span>Tax</span><span>${tax.toFixed(2)}</span></div>
-            <div className="flex justify-between font-bold mt-2"><span>Total</span><span>${total.toFixed(2)}</span></div>
-          </div>
-        </aside>
-      </div>
-    </main>
-  );
-
-  const CartDrawer = () => (
-    <div className="fixed right-4 bottom-4 w-80 bg-white rounded shadow-lg p-4 z-40">
-      <h4 className="font-semibold">Cart</h4>
-      <div className="mt-2 space-y-3">
-        {cart.length === 0 && <div className="text-sm text-gray-500">Your cart is empty.</div>}
-        {cart.map((it) => (
-          <div key={it.id} className="flex items-center justify-between">
-            <div>
-              <div className="text-sm font-medium">{it.title}</div>
-              <div className="text-xs text-gray-500">${it.price.toFixed(2)} x {it.qty}</div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button onClick={() => updateQty(it.id, -1)} className="px-2 py-1 border rounded">-</button>
-              <button onClick={() => updateQty(it.id, 1)} className="px-2 py-1 border rounded">+</button>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-3 border-t pt-3">
-        <div className="flex justify-between font-semibold"><span>Total</span><span>${total.toFixed(2)}</span></div>
-        <div className="mt-3 flex gap-2">
-          <button className="flex-1 bg-sky-600 text-white py-2 rounded" onClick={() => setPage('checkout')}>Checkout</button>
-          <button className="flex-1 border py-2 rounded" onClick={clearCart}>Clear</button>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Nav />
-
-      {page === 'home' && <Home />}
-      {page === 'products' && <ProductsPage />}
-      {page === 'categories' && <CategoriesPage />}
-      {page === 'about' && <AboutPage />}
-      {page === 'checkout' && <CheckoutPage />}
-
-      {/* Product detail modal */}
-      {detail && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg max-w-3xl w-full p-6">
-            <div className="flex gap-4">
-              <img src={detail.image} alt={detail.title} className="w-1/3 object-cover rounded" />
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold">{detail.title}</h3>
-                <div className="text-sky-600 font-bold mt-1">${detail.price.toFixed(2)}</div>
-                <p className="text-sm text-gray-600 mt-3">{detail.description}</p>
-
-                <div className="mt-4 flex gap-2">
-                  <button className="bg-sky-600 text-white px-3 py-2 rounded" onClick={() => { addToCart(detail); setDetail(null); }}>Add to cart</button>
-                  <button className="border px-3 py-2 rounded" onClick={() => setDetail(null)}>Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Cart drawer */}
-      {cart.length > 0 && <CartDrawer />}
-
-      <footer className="bg-slate-800 text-white mt-10">
-        <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div>
-            <h4 className="font-semibold">UrbanFlex</h4>
-            <p className="text-sm text-gray-300 mt-2">Premium casual wear and sportswear prototype.</p>
-          </div>
-          <div>
-            <h4 className="font-semibold">Shop</h4>
-            <ul className="text-sm text-gray-300 mt-2 space-y-1">
-              <li>Casual Wear</li>
-              <li>Sportswear</li>
-              <li>Accessories</li>
-              <li>New Arrivals</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold">Support</h4>
-            <ul className="text-sm text-gray-300 mt-2 space-y-1">
-              <li>Contact Us</li>
-              <li>Shipping</li>
-              <li>Returns</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold">Contact</h4>
-            <p className="text-sm text-gray-300 mt-2">Email: info@urbanflex.com</p>
-            <p className="text-sm text-gray-400 mt-1">Phone: (blank)</p>
-            <p className="text-sm text-gray-400 mt-1">Address: (blank)</p>
-          </div>
-        </div>
-        <div className="text-center text-gray-400 py-4">© 2025 UrbanFlex. Prototype only.</div>
-      </footer>
-    </div>
-  );
+<script>
+function goTo(section) {
+    document.getElementById(section).scrollIntoView({ behavior: "smooth" });
 }
+</script>
 
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header>
+    <h1>UrbanFlex Store</h1>
+    <nav>
+        <a href="javascript:goTo('home')">Home</a>
+        <a href="javascript:goTo('products')">Products</a>
+        <a href="javascript:goTo('categories')">Categories</a>
+        <a href="javascript:goTo('about')">About</a>
+    </nav>
+</header>
+
+<!-- HOME -->
+<section id="home">
+    <div class="hero">
+        <h1>Style Meets Performance</h1>
+        <p>Premium casual wear and sportswear for active lifestyles.</p>
+        <button class="btn" onclick="goTo('products')">Start Shopping</button>
+    </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+    <h2>Products</h2>
+
+    <div class="container">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=60">
+            <h3>Premium Cotton Hoodie</h3>
+            <p>RM45.99</p>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=60">
+            <h3>Running Shoes</h3>
+            <p>RM89.99</p>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&q=60">
+            <h3>Flex Jogger Pants</h3>
+            <p>RM34.99</p>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=800&q=60">
+            <h3>Yoga Performance Set</h3>
+            <p>RM52.99</p>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section id="categories">
+    <h2>Categories</h2>
+
+    <div class="container">
+        <div class="card">
+            <h3>Casual Wear</h3>
+            <p>Comfort clothing for daily wear.</p>
+        </div>
+
+        <div class="card">
+            <h3>Sportswear</h3>
+            <p>Performance gear for all activities.</p>
+        </div>
+
+        <div class="card">
+            <h3>Accessories</h3>
+            <p>Bags, caps, and more.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <h2>About Us</h2>
+
+    <div class="card">
+        <p>UrbanFlex is a fictional e-commerce prototype designed for demo and portfolio use.</p>
+
+        <h3>Contact:</h3>
+        <p>Email: info@urbanflex.com</p>
+        <p>Phone: (blank)</p>
+        <p>Address: (blank)</p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>© 2025 UrbanFlex Store — Prototype Only</p>
+</div>
+
+</body>
+</html>
