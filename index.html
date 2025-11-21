@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanFlex - Casual & Sportswear</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        /* Products Grid */
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--dark);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Cart Styles */
+        .cart-container {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-right: 1.5rem;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-meta {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .quantity {
+            padding: 0 0.5rem;
+        }
+
+        .remove-btn {
+            color: var(--danger);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cart-summary {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+
+        .summary-total {
+            border-top: 1px solid var(--border);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        /* Checkout Form */
+        .checkout-form {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .admin-header {
+            background: var(--dark);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .admin-nav {
+            display: flex;
+            background: var(--secondary);
+        }
+
+        .admin-nav a {
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-nav a.active {
+            background: var(--primary);
+        }
+
+        .admin-content {
+            padding: 2rem;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-table th {
+            background: var(--light);
+            font-weight: 600;
+        }
+
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+
+        .edit-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Product Detail */
+        .product-detail {
+            display: flex;
+            gap: 3rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-detail-image {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .product-detail-image img {
+            width: 100%;
+            border-radius: 0.5rem;
+        }
+
+        .product-detail-info {
+            flex: 1;
+        }
+
+        .product-detail-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-detail-price {
+            font-size: 1.75rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-detail-description {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .option-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mt-3 { margin-top: 3rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mb-3 { margin-bottom: 3rem; }
+        .hidden { display: none; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .product-detail {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+            }
+            
+            .cart-item-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <i>👕</i> UrbanFlex
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="active">Home</a>
+                    <a href="#products">Products</a>
+                    <a href="#categories">Categories</a>
+                    <a href="#about">About</a>
+                </div>
+                <div class="nav-actions">
+                    <div class="cart-icon" onclick="showPage('cart')">
+                        <i>🛒</i>
+                        <span class="cart-count">3</span>
+                    </div>
+                    <a href="#" class="btn btn-outline" onclick="showPage('admin')">Admin</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Homepage -->
+    <section id="homepage">
+        <div class="hero">
+            <div class="container">
+                <h1>Style Meets Performance</h1>
+                <p>Discover our premium collection of casual wear and high-performance sportswear for your active lifestyle.</p>
+                <a href="#products" class="btn btn-primary" style="background: white; color: var(--primary);">Shop Now</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" alt="Premium Hoodie" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Casual Wear</div>
+                        <h3 class="product-title">Premium Cotton Hoodie</h3>
+                        <div class="product-price">$45.99</div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="showProductDetail(1)">View Details</button>
+                            <button class="btn btn-outline">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" alt="Running Shoes" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Sportswear</div>
+                        <h3 class="product-title">Performance Running Shoes</h3>
+                        <div class="product-price">$89.99</div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="showProductDetail(2)">View Details</button>
+                            <button class="btn btn-outline">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400" alt="Jogger Pants" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Casual Wear</div>
+                        <h3 class="product-title">Flex Jogger Pants</h3>
+                        <div class="product-price">$34.99</div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="showProductDetail(3)">View Details</button>
+                            <button class="btn btn-outline">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=400" alt="Yoga Set" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">Sportswear</div>
+                        <h3 class="product-title">Yoga Performance Set</h3>
+                        <div class="product-price">$52.99</div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="showProductDetail(4)">View Details</button>
+                            <button class="btn btn-outline">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Detail Page -->
+    <section id="product-detail" class="hidden">
+        <div class="container">
+            <button class="btn btn-outline mb-2" onclick="showPage('homepage')">← Back to Products</button>
+            <div class="product-detail">
+                <div class="product-detail-image">
+                    <img id="detail-image" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500" alt="Product Image">
+                </div>
+                <div class="product-detail-info">
+                    <h1 id="detail-title" class="product-detail-title">Premium Cotton Hoodie</h1>
+                    <div id="detail-price" class="product-detail-price">$45.99</div>
+                    <p id="detail-description" class="product-detail-description">
+                        Our premium cotton hoodie is made from 100% organic cotton for ultimate comfort. 
+                        Features a relaxed fit, adjustable drawstring hood, and front pocket. Perfect for 
+                        casual outings or lounging at home.
+                    </p>
+                    
+                    <div class="option-group">
+                        <label class="option-label">Size</label>
+                        <select class="option-select">
+                            <option>Small</option>
+                            <option>Medium</option>
+                            <option>Large</option>
+                            <option>X-Large</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label class="option-label">Color</label>
+                        <select class="option-select">
+                            <option>Black</option>
+                            <option>Gray</option>
+                            <option>Navy</option>
+                            <option>Green</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label class="option-label">Quantity</label>
+                        <select class="option-select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart -->
+    <section id="cart" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Your Shopping Cart</h2>
+            
+            <div class="cart-container">
+                <!-- Cart Item 1 -->
+                <div class="cart-item">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200" alt="Premium Hoodie" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-title">Premium Cotton Hoodie</h3>
+                        <div class="cart-item-meta">Size: Medium | Color: Black</div>
+                        <div class="cart-item-price">$45.99</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <div class="quantity-control">
+                            <button class="quantity-btn">-</button>
+                            <span class="quantity">1</span>
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="remove-btn">Remove</button>
+                    </div>
+                </div>
+                
+                <!-- Cart Item 2 -->
+                <div class="cart-item">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200" alt="Running Shoes" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-title">Performance Running Shoes</h3>
+                        <div class="cart-item-meta">Size: 10 | Color: Blue/Red</div>
+                        <div class="cart-item-price">$89.99</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <div class="quantity-control">
+                            <button class="quantity-btn">-</button>
+                            <span class="quantity">1</span>
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="remove-btn">Remove</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>$135.98</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span>$5.99</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax:</span>
+                    <span>$12.15</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span>$154.12</span>
+                </div>
+                
+                <button class="btn btn-primary mt-2" style="width: 100%;" onclick="showPage('checkout')">Proceed to Checkout</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Page -->
+    <section id="checkout" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Checkout</h2>
+            
+            <div class="form-row">
+                <div class="checkout-form" style="flex: 2;">
+                    <h3>Shipping Information</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-control" placeholder="123 Main St">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" placeholder="New York">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State</label>
+                            <input type="text" class="form-control" placeholder="NY">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ZIP Code</label>
+                            <input type="text" class="form-control" placeholder="10001">
+                        </div>
+                    </div>
+                    
+                    <h3 class="mt-3">Payment Information</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Expiration Date</label>
+                            <input type="text" class="form-control" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CVV</label>
+                            <input type="text" class="form-control" placeholder="123">
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%;" onclick="processOrder()">Place Order</button>
+                </div>
+                
+                <div class="cart-summary" style="flex: 1;">
+                    <h3>Order Summary</h3>
+                    
+                    <div class="summary-row">
+                        <span>Premium Hoodie</span>
+                        <span>$45.99</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Running Shoes</span>
+                        <span>$89.99</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>$135.98</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>$5.99</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax:</span>
+                        <span>$12.15</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total:</span>
+                        <span>$154.12</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Confirmation -->
+    <section id="order-confirmation" class="hidden">
+        <div class="container">
+            <div class="text-center">
+                <div style="font-size: 4rem; color: var(--success); margin-bottom: 1rem;">✓</div>
+                <h2 class="section-title">Order Confirmed!</h2>
+                <p>Thank you for your purchase. Your order #UF20231025 has been confirmed.</p>
+                <p class="mb-3">You will receive an email confirmation shortly.</p>
+                <button class="btn btn-primary" onclick="showPage('homepage')">Continue Shopping</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Admin Panel</h2>
+            
+            <div class="admin-panel">
+                <div class="admin-header">
+                    <h3>UrbanFlex Store Management</h3>
+                    <p>Manage products, orders, and inventory</p>
+                </div>
+                
+                <div class="admin-nav">
+                    <a href="#" class="active">Products</a>
+                    <a href="#">Orders</a>
+                    <a href="#">Customers</a>
+                    <a href="#">Analytics</a>
+                </div>
+                
+                <div class="admin-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3>Product Management</h3>
+                        <button class="btn btn-primary">Add New Product</button>
+                    </div>
+                    
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>UF001</td>
+                                <td>Premium Cotton Hoodie</td>
+                                <td>Casual Wear</td>
+                                <td>$45.99</td>
+                                <td>24</td>
+                                <td>
+                                    <button class="action-btn edit-btn">Edit</button>
+                                    <button class="action-btn delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>UF002</td>
+                                <td>Performance Running Shoes</td>
+                                <td>Sportswear</td>
+                                <td>$89.99</td>
+                                <td>15</td>
+                                <td>
+                                    <button class="action-btn edit-btn">Edit</button>
+                                    <button class="action-btn delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>UF003</td>
+                                <td>Flex Jogger Pants</td>
+                                <td>Casual Wear</td>
+                                <td>$34.99</td>
+                                <td>32</td>
+                                <td>
+                                    <button class="action-btn edit-btn">Edit</button>
+                                    <button class="action-btn delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>UF004</td>
+                                <td>Yoga Performance Set</td>
+                                <td>Sportswear</td>
+                                <td>$52.99</td>
+                                <td>18</td>
+                                <td>
+                                    <button class="action-btn edit-btn">Edit</button>
+                                    <button class="action-btn delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>UF005</td>
+                                <td>Classic Cotton T-Shirt</td>
+                                <td>Casual Wear</td>
+                                <td>$19.99</td>
+                                <td>45</td>
+                                <td>
+                                    <button class="action-btn edit-btn">Edit</button>
+                                    <button class="action-btn delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>UrbanFlex</h3>
+                    <p>Premium casual wear and sportswear for your active lifestyle. Quality, comfort, and style in every piece.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Casual Wear</a></li>
+                        <li><a href="#">Sportswear</a></li>
+                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li>Email: info@urbanflex.com</li>
+                        <li>Phone: (555) 123-4567</li>
+                        <li>Address: 123 Fashion Ave, NY</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 UrbanFlex. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+        
+        // Product details data
+        const products = {
+            1: {
+                title: "Premium Cotton Hoodie",
+                price: "$45.99",
+                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+                description: "Our premium cotton hoodie is made from 100% organic cotton for ultimate comfort. Features a relaxed fit, adjustable drawstring hood, and front pocket. Perfect for casual outings or lounging at home."
+            },
+            2: {
+                title: "Performance Running Shoes",
+                price: "$89.99",
+                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500",
+                description: "Engineered for maximum performance, these running shoes feature advanced cushioning technology, breathable mesh upper, and durable rubber outsole. Ideal for both casual joggers and serious runners."
+            },
+            3: {
+                title: "Flex Jogger Pants",
+                price: "$34.99",
+                image: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=500",
+                description: "Experience ultimate comfort with our flex jogger pants. Made with stretchable fabric and featuring an elastic waistband with drawstring, these pants are perfect for workouts or casual wear."
+            },
+            4: {
+                title: "Yoga Performance Set",
+                price: "$52.99",
+                image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500",
+                description: "This 2-piece yoga set includes a breathable top and high-waist leggings designed for maximum flexibility and comfort. Moisture-wicking fabric keeps you dry during intense workouts."
+            }
+        };
+        
+        // Show product detail
+        function showProductDetail(productId) {
+            const product = products[productId];
+            document.getElementById('detail-title').textContent = product.title;
+            document.getElementById('detail-price').textContent = product.price;
+            document.getElementById('detail-image').src = product.image;
+            document.getElementById('detail-description').textContent = product.description;
+            showPage('product-detail');
+        }
+        
+        // Process order (dummy function)
+        function processOrder() {
+            showPage('order-confirmation');
+        }
+        
+        // Initialize with homepage
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('homepage');
+        });
+    </script>
+</body>
+</html>
