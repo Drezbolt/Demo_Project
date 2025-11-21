@@ -1,1544 +1,478 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UrbanFlex - Casual & Sportswear</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #1d4ed8;
-            --secondary: #64748b;
-            --accent: #f59e0b;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        body {
-            background-color: #f1f5f9;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header & Navigation */
-        header {
-            background: white;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .logo i {
-            margin-right: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--secondary);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--primary);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
-        }
-
-        /* Products Grid */
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-            color: var(--dark);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-category {
-            color: var(--secondary);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-title {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .product-price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .product-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        /* Cart Styles */
-        .cart-container {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .cart-item {
-            display: flex;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .cart-item:last-child {
-            border-bottom: none;
-        }
-
-        .cart-item-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-            margin-right: 1.5rem;
-        }
-
-        .cart-item-details {
-            flex: 1;
-        }
-
-        .cart-item-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .cart-item-meta {
-            color: var(--secondary);
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .cart-item-price {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .quantity {
-            padding: 0 0.5rem;
-            font-weight: 600;
-        }
-
-        .remove-btn {
-            color: var(--danger);
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cart-summary {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-        }
-
-        .summary-total {
-            border-top: 1px solid var(--border);
-            margin-top: 1rem;
-            padding-top: 1rem;
-            font-weight: bold;
-            font-size: 1.25rem;
-        }
-
-        /* Checkout Form */
-        .checkout-form {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        /* Admin Panel */
-        .admin-panel {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-
-        .admin-header {
-            background: var(--dark);
-            color: white;
-            padding: 1.5rem;
-        }
-
-        .admin-nav {
-            display: flex;
-            background: var(--secondary);
-        }
-
-        .admin-nav a {
-            padding: 1rem 1.5rem;
-            color: white;
-            text-decoration: none;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .admin-nav a.active {
-            background: var(--primary);
-        }
-
-        .admin-content {
-            padding: 2rem;
-        }
-
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .admin-table th, .admin-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .admin-table th {
-            background: var(--light);
-            font-weight: 600;
-        }
-
-        .action-btn {
-            padding: 0.25rem 0.5rem;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            margin-right: 0.5rem;
-        }
-
-        .edit-btn {
-            background: var(--primary);
-            color: white;
-        }
-
-        .delete-btn {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* Product Detail */
-        .product-detail {
-            display: flex;
-            gap: 3rem;
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .product-detail-image {
-            flex: 1;
-            max-width: 500px;
-        }
-
-        .product-detail-image img {
-            width: 100%;
-            border-radius: 0.5rem;
-        }
-
-        .product-detail-info {
-            flex: 1;
-        }
-
-        .product-detail-title {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .product-detail-price {
-            font-size: 1.75rem;
-            color: var(--primary);
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-        }
-
-        .product-detail-description {
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .option-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .option-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .option-select {
-            padding: 0.5rem;
-            border: 1px solid var(--border);
-            border-radius: 0.25rem;
-            width: 100%;
-            max-width: 200px;
-        }
-
-        /* Payment Simulation */
-        .payment-options {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .payment-btn {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 0.5rem;
-            background: white;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .payment-btn:hover {
-            border-color: var(--primary);
-        }
-
-        .payment-btn.active {
-            border-color: var(--primary);
-            background: var(--light);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 0 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.25rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-links a {
-            color: #cbd5e1;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #334155;
-            color: #94a3b8;
-        }
-
-        /* Utility Classes */
-        .text-center {
-            text-align: center;
-        }
-
-        .mt-1 { margin-top: 1rem; }
-        .mt-2 { margin-top: 2rem; }
-        .mt-3 { margin-top: 3rem; }
-        .mb-1 { margin-bottom: 1rem; }
-        .mb-2 { margin-bottom: 2rem; }
-        .mb-3 { margin-bottom: 3rem; }
-        .hidden { display: none; }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast.error {
-            background: var(--danger);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav-links {
-                gap: 1rem;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .product-detail {
-                flex-direction: column;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-            
-            .cart-item {
-                flex-direction: column;
-            }
-            
-            .cart-item-image {
-                margin-right: 0;
-                margin-bottom: 1rem;
-            }
-            
-            .payment-options {
-                flex-direction: column;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="navbar">
-                <a href="#" class="logo" onclick="showPage('homepage')">
-                    <i class="fas fa-tshirt"></i> UrbanFlex
-                </a>
-                <div class="nav-links">
-                    <a href="#" class="active" onclick="showPage('homepage')">Home</a>
-                    <a href="#products" onclick="showPage('homepage')">Products</a>
-                    <a href="#categories" onclick="showPage('homepage')">Categories</a>
-                    <a href="#about">About</a>
-                </div>
-                <div class="nav-actions">
-                    <div class="cart-icon" onclick="showPage('cart')">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count" id="cart-count">0</span>
-                    </div>
-                    <a href="#" class="btn btn-outline" onclick="showPage('admin')">Admin</a>
-                </div>
-            </div>
+import React, { useState } from "react";
+
+// UrbanFlexPrototype.jsx
+// Single-file React prototype (Tailwind CSS classes used)
+// Default export: a complete, client-side prototype with Home, Products, Categories, About pages,
+// product detail view, category filtering, and a simple cart. Address and phone fields are left blank.
+
+export default function UrbanFlexPrototype() {
+  const initialProducts = [
+    {
+      id: "p1",
+      title: "Premium Cotton Hoodie",
+      category: "Casual Wear",
+      price: 45.99,
+      image:
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=60",
+      description:
+        "100% organic cotton hoodie. Relaxed fit, drawstring hood, front pocket. Cozy and breathable.",
+      stock: 24,
+    },
+    {
+      id: "p2",
+      title: "Performance Running Shoes",
+      category: "Sportswear",
+      price: 89.99,
+      image:
+        "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=60",
+      description:
+        "Advanced cushioning, breathable mesh upper, grippy outsole — built for running and everyday comfort.",
+      stock: 15,
+    },
+    {
+      id: "p3",
+      title: "Flex Jogger Pants",
+      category: "Casual Wear",
+      price: 34.99,
+      image:
+        "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&q=60",
+      description:
+        "Stretch fabric, elastic waistband, tapered ankle — great for workouts or chilling at home.",
+      stock: 32,
+    },
+    {
+      id: "p4",
+      title: "Yoga Performance Set",
+      category: "Sportswear",
+      price: 52.99,
+      image:
+        "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=800&q=60",
+      description:
+        "Two-piece set with moisture-wicking fabric and compression fit for yoga and mobility.",
+      stock: 18,
+    },
+    {
+      id: "p5",
+      title: "Classic Cotton T-Shirt",
+      category: "Casual Wear",
+      price: 19.99,
+      image:
+        "https://images.unsplash.com/photo-1520975919459-cca7e7a8a2b6?w=800&q=60",
+      description: "Everyday cotton tee with a clean cut and great drape.",
+      stock: 45,
+    },
+  ];
+
+  const [page, setPage] = useState("home"); // 'home' | 'products' | 'categories' | 'about' | 'checkout'
+  const [products] = useState(initialProducts);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [query, setQuery] = useState("");
+  const [detail, setDetail] = useState(null);
+  const [cart, setCart] = useState([]);
+
+  const categories = ["All", ...Array.from(new Set(products.map((p) => p.category)))];
+
+  function addToCart(product, qty = 1) {
+    setCart((prev) => {
+      const found = prev.find((c) => c.id === product.id);
+      if (found) {
+        return prev.map((c) => (c.id === product.id ? { ...c, qty: c.qty + qty } : c));
+      }
+      return [...prev, { id: product.id, title: product.title, price: product.price, qty }];
+    });
+  }
+
+  function removeFromCart(productId) {
+    setCart((prev) => prev.filter((c) => c.id !== productId));
+  }
+
+  function updateQty(productId, delta) {
+    setCart((prev) =>
+      prev
+        .map((c) => (c.id === productId ? { ...c, qty: Math.max(1, c.qty + delta) } : c))
+        .filter((c) => c.qty > 0)
+    );
+  }
+
+  function clearCart() {
+    setCart([]);
+  }
+
+  const filtered = products.filter((p) => {
+    const matchCategory = selectedCategory === "All" || p.category === selectedCategory;
+    const matchQuery = p.title.toLowerCase().includes(query.toLowerCase());
+    return matchCategory && matchQuery;
+  });
+
+  const subtotal = cart.reduce((s, it) => s + it.price * it.qty, 0);
+  const shipping = subtotal > 0 ? 5.99 : 0;
+  const tax = +(subtotal * 0.09).toFixed(2);
+  const total = +(subtotal + shipping + tax).toFixed(2);
+
+  // Simple components to keep file tidy
+  const Nav = () => (
+    <header className="bg-white shadow sticky top-0 z-30">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="text-2xl">👕</div>
+          <div className="font-bold text-xl text-sky-600">UrbanFlex</div>
         </div>
+        <nav className="flex items-center gap-6">
+          <button
+            className={`text-sm font-medium ${page === "home" ? "text-sky-600" : "text-gray-600"}`}
+            onClick={() => setPage("home")}
+          >
+            Home
+          </button>
+          <button
+            className={`text-sm font-medium ${page === "products" ? "text-sky-600" : "text-gray-600"}`}
+            onClick={() => setPage("products")}
+          >
+            Products
+          </button>
+          <button
+            className={`text-sm font-medium ${page === "categories" ? "text-sky-600" : "text-gray-600"}`}
+            onClick={() => setPage("categories")}
+          >
+            Categories
+          </button>
+          <button
+            className={`text-sm font-medium ${page === "about" ? "text-sky-600" : "text-gray-600"}`}
+            onClick={() => setPage("about")}
+          >
+            About
+          </button>
+
+          <div className="relative">
+            <button
+              onClick={() => setPage("checkout")}
+              className="bg-sky-600 text-white px-3 py-1 rounded-md text-sm"
+            >
+              Cart ({cart.reduce((a, c) => a + c.qty, 0)})
+            </button>
+          </div>
+        </nav>
+      </div>
     </header>
+  );
 
-    <!-- Homepage -->
-    <section id="homepage">
-        <div class="hero">
-            <div class="container">
-                <h1>Style Meets Performance</h1>
-                <p>Discover our premium collection of casual wear and high-performance sportswear for your active lifestyle.</p>
-                <a href="#products" class="btn btn-primary" style="background: white; color: var(--primary);">Shop Now</a>
-            </div>
+  const Home = () => (
+    <main className="max-w-6xl mx-auto px-4 py-10">
+      <section className="rounded-lg p-10 bg-gradient-to-r from-sky-600 to-sky-800 text-white text-center">
+        <h1 className="text-3xl font-bold">Style Meets Performance</h1>
+        <p className="mt-2 max-w-2xl mx-auto">Discover our premium collection of casual wear and high-performance sportswear for your active lifestyle.</p>
+        <div className="mt-6">
+          <button
+            className="bg-white text-sky-700 px-4 py-2 rounded-md font-semibold"
+            onClick={() => setPage("products")}
+          >
+            Start shopping
+          </button>
         </div>
+      </section>
 
-        <div class="container">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="products-grid" id="products-grid">
-                <!-- Products will be loaded dynamically -->
-            </div>
+      <section className="mt-10">
+        <h2 className="text-2xl font-semibold mb-4">Featured Products</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.slice(0, 3).map((p) => (
+            <article key={p.id} className="bg-white p-4 rounded-lg shadow">
+              <img src={p.image} alt={p.title} className="w-full h-48 object-cover rounded" />
+              <div className="mt-3 flex justify-between items-start">
+                <div>
+                  <h3 className="font-semibold">{p.title}</h3>
+                  <p className="text-xs text-gray-500">{p.category}</p>
+                </div>
+                <div className="text-sky-600 font-bold">${p.price.toFixed(2)}</div>
+              </div>
+              <div className="mt-3 flex gap-2">
+                <button
+                  className="flex-1 bg-sky-600 text-white py-2 rounded"
+                  onClick={() => { setDetail(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                >
+                  View
+                </button>
+                <button
+                  className="flex-1 border border-sky-600 text-sky-600 py-2 rounded"
+                  onClick={() => addToCart(p)}
+                >
+                  Add
+                </button>
+              </div>
+            </article>
+          ))}
         </div>
-    </section>
+      </section>
+    </main>
+  );
 
-    <!-- Product Detail Page -->
-    <section id="product-detail" class="hidden">
-        <div class="container">
-            <button class="btn btn-outline mb-2" onclick="showPage('homepage')"><i class="fas fa-arrow-left"></i> Back to Products</button>
-            <div class="product-detail">
-                <div class="product-detail-image">
-                    <img id="detail-image" src="" alt="Product Image">
-                </div>
-                <div class="product-detail-info">
-                    <h1 id="detail-title" class="product-detail-title"></h1>
-                    <div id="detail-price" class="product-detail-price"></div>
-                    <p id="detail-description" class="product-detail-description"></p>
-                    
-                    <div class="option-group">
-                        <label class="option-label">Size</label>
-                        <select class="option-select" id="size-select">
-                            <option value="S">Small</option>
-                            <option value="M" selected>Medium</option>
-                            <option value="L">Large</option>
-                            <option value="XL">X-Large</option>
-                        </select>
-                    </div>
-                    
-                    <div class="option-group">
-                        <label class="option-label">Color</label>
-                        <select class="option-select" id="color-select">
-                            <option value="Black" selected>Black</option>
-                            <option value="Gray">Gray</option>
-                            <option value="Navy">Navy</option>
-                            <option value="Green">Green</option>
-                        </select>
-                    </div>
-                    
-                    <div class="option-group">
-                        <label class="option-label">Quantity</label>
-                        <select class="option-select" id="quantity-select">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    
-                    <button class="btn btn-primary" id="add-to-cart-btn">Add to Cart</button>
-                </div>
+  const ProductsPage = () => (
+    <main className="max-w-6xl mx-auto px-4 py-10">
+      <div className="flex flex-col md:flex-row gap-6">
+        <aside className="md:w-64 bg-white p-4 rounded shadow">
+          <h3 className="font-semibold mb-3">Filters</h3>
+          <div className="mb-3">
+            <label className="block text-xs text-gray-500 mb-1">Search</label>
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search products..."
+              className="w-full border px-2 py-2 rounded text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">Category</label>
+            <div className="flex flex-col gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`text-left text-sm py-1 rounded ${selectedCategory === cat ? 'bg-sky-100 font-semibold' : 'hover:bg-slate-50'}`}
+                  onClick={() => setSelectedCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
+          </div>
+        </aside>
+
+        <section className="flex-1">
+          <h2 className="text-2xl font-semibold mb-4">Products</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((p) => (
+              <article key={p.id} className="bg-white p-4 rounded shadow flex flex-col">
+                <img src={p.image} alt={p.title} className="w-full h-48 object-cover rounded" />
+                <div className="mt-3 flex justify-between items-start">
+                  <div>
+                    <h3 className="font-semibold">{p.title}</h3>
+                    <p className="text-xs text-gray-500">{p.category}</p>
+                  </div>
+                  <div className="text-sky-600 font-bold">${p.price.toFixed(2)}</div>
+                </div>
+                <p className="mt-2 text-sm text-gray-600 flex-1">{p.description}</p>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    className="flex-1 bg-sky-600 text-white py-2 rounded"
+                    onClick={() => setDetail(p)}
+                  >
+                    Details
+                  </button>
+                  <button
+                    className="flex-1 border border-sky-600 text-sky-600 py-2 rounded"
+                    onClick={() => addToCart(p)}
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+
+  const CategoriesPage = () => (
+    <main className="max-w-4xl mx-auto px-4 py-10">
+      <h2 className="text-2xl font-semibold mb-4">Categories</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {categories.map((c) => (
+          <div
+            key={c}
+            className="p-4 bg-white rounded shadow flex items-center justify-between"
+          >
+            <div>
+              <h3 className="font-semibold">{c}</h3>
+              <p className="text-sm text-gray-500">{products.filter((p) => (c === 'All' ? true : p.category === c)).length} products</p>
+            </div>
+            <div>
+              <button
+                className="px-3 py-1 bg-sky-600 text-white rounded"
+                onClick={() => { setSelectedCategory(c); setPage('products'); }}
+              >
+                View
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+  );
+
+  const AboutPage = () => (
+    <main className="max-w-4xl mx-auto px-4 py-10">
+      <h2 className="text-2xl font-semibold mb-4">About UrbanFlex</h2>
+      <div className="bg-white p-6 rounded shadow">
+        <p className="text-gray-700">UrbanFlex is a fictional store prototype built to demonstrate a small e-commerce UI.</p>
+        <div className="mt-4">
+          <h3 className="font-semibold">Contact</h3>
+          <ul className="text-sm text-gray-600 mt-2 space-y-1">
+            <li>Email: info@urbanflex.com</li>
+            <li>Phone: {/* left intentionally blank */} <span className="text-gray-400">(blank)</span></li>
+            <li>Address: <span className="text-gray-400">(blank)</span></li>
+          </ul>
         </div>
-    </section>
+      </div>
+    </main>
+  );
 
-    <!-- Shopping Cart -->
-    <section id="cart" class="hidden">
-        <div class="container">
-            <h2 class="section-title">Your Shopping Cart</h2>
-            
-            <div class="cart-container" id="cart-items">
-                <!-- Cart items will be loaded dynamically -->
-                <div class="text-center" id="empty-cart-message">
-                    <p>Your cart is empty</p>
-                    <button class="btn btn-primary mt-2" onclick="showPage('homepage')">Continue Shopping</button>
+  const CheckoutPage = () => (
+    <main className="max-w-4xl mx-auto px-4 py-10">
+      <h2 className="text-2xl font-semibold mb-4">Checkout</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            // in a real app you'd validate and call an API
+            clearCart();
+            setPage('home');
+            alert('Order placed (prototype).');
+          }}
+          className="bg-white p-6 rounded shadow"
+        >
+          <h3 className="font-semibold mb-3">Shipping</h3>
+          <div className="mb-2">
+            <label className="text-sm block mb-1">Full name</label>
+            <input className="w-full border px-3 py-2 rounded" required />
+          </div>
+          <div className="mb-2">
+            <label className="text-sm block mb-1">Address</label>
+            <input className="w-full border px-3 py-2 rounded" required />
+          </div>
+          <div className="mb-2">
+            <label className="text-sm block mb-1">City</label>
+            <input className="w-full border px-3 py-2 rounded" required />
+          </div>
+
+          <h3 className="font-semibold mt-4 mb-2">Payment (demo)</h3>
+          <div className="mb-2">
+            <label className="text-sm block mb-1">Card number</label>
+            <input className="w-full border px-3 py-2 rounded" placeholder="1234 5678 9012 3456" required />
+          </div>
+
+          <button className="mt-4 bg-sky-600 text-white px-4 py-2 rounded" type="submit">Place Order</button>
+        </form>
+
+        <aside className="bg-white p-6 rounded shadow">
+          <h3 className="font-semibold mb-3">Order Summary</h3>
+          <div className="space-y-2">
+            {cart.map((it) => (
+              <div key={it.id} className="flex justify-between">
+                <div>
+                  <div className="font-medium">{it.title}</div>
+                  <div className="text-xs text-gray-500">qty: {it.qty}</div>
                 </div>
+                <div className="font-semibold">${(it.price * it.qty).toFixed(2)}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 border-t pt-3 text-sm">
+            <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
+            <div className="flex justify-between"><span>Shipping</span><span>${shipping.toFixed(2)}</span></div>
+            <div className="flex justify-between"><span>Tax</span><span>${tax.toFixed(2)}</span></div>
+            <div className="flex justify-between font-bold mt-2"><span>Total</span><span>${total.toFixed(2)}</span></div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  );
+
+  const CartDrawer = () => (
+    <div className="fixed right-4 bottom-4 w-80 bg-white rounded shadow-lg p-4 z-40">
+      <h4 className="font-semibold">Cart</h4>
+      <div className="mt-2 space-y-3">
+        {cart.length === 0 && <div className="text-sm text-gray-500">Your cart is empty.</div>}
+        {cart.map((it) => (
+          <div key={it.id} className="flex items-center justify-between">
+            <div>
+              <div className="text-sm font-medium">{it.title}</div>
+              <div className="text-xs text-gray-500">${it.price.toFixed(2)} x {it.qty}</div>
             </div>
-            
-            <div class="cart-summary" id="cart-summary" style="display: none;">
-                <div class="summary-row">
-                    <span>Subtotal:</span>
-                    <span id="subtotal">$0.00</span>
-                </div>
-                <div class="summary-row">
-                    <span>Shipping:</span>
-                    <span id="shipping">$5.99</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tax:</span>
-                    <span id="tax">$0.00</span>
-                </div>
-                <div class="summary-row summary-total">
-                    <span>Total:</span>
-                    <span id="total">$0.00</span>
-                </div>
-                
-                <button class="btn btn-primary mt-2" style="width: 100%;" onclick="showPage('checkout')">Proceed to Checkout</button>
+            <div className="flex items-center gap-2">
+              <button onClick={() => updateQty(it.id, -1)} className="px-2 py-1 border rounded">-</button>
+              <button onClick={() => updateQty(it.id, 1)} className="px-2 py-1 border rounded">+</button>
             </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 border-t pt-3">
+        <div className="flex justify-between font-semibold"><span>Total</span><span>${total.toFixed(2)}</span></div>
+        <div className="mt-3 flex gap-2">
+          <button className="flex-1 bg-sky-600 text-white py-2 rounded" onClick={() => setPage('checkout')}>Checkout</button>
+          <button className="flex-1 border py-2 rounded" onClick={clearCart}>Clear</button>
         </div>
-    </section>
+      </div>
+    </div>
+  );
 
-    <!-- Checkout Page -->
-    <section id="checkout" class="hidden">
-        <div class="container">
-            <h2 class="section-title">Checkout</h2>
-            
-            <div class="form-row">
-                <div class="checkout-form" style="flex: 2;">
-                    <h3>Shipping Information</h3>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="full-name" placeholder="John Doe">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="john@example.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="123 Main St">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">City</label>
-                            <input type="text" class="form-control" id="city" placeholder="New York">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">State</label>
-                            <input type="text" class="form-control" id="state" placeholder="NY">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">ZIP Code</label>
-                            <input type="text" class="form-control" id="zip" placeholder="10001">
-                        </div>
-                    </div>
-                    
-                    <h3 class="mt-3">Payment Method</h3>
-                    
-                    <div class="payment-options">
-                        <div class="payment-btn active" data-method="success" onclick="selectPaymentMethod('success')">
-                            <i class="fas fa-credit-card"></i>
-                            <p>Pay Now (Success)</p>
-                        </div>
-                        <div class="payment-btn" data-method="failure" onclick="selectPaymentMethod('failure')">
-                            <i class="fas fa-credit-card"></i>
-                            <p>Pay Now (Failure)</p>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary mt-3" style="width: 100%;" onclick="processOrder()">Place Order</button>
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Nav />
+
+      {page === 'home' && <Home />}
+      {page === 'products' && <ProductsPage />}
+      {page === 'categories' && <CategoriesPage />}
+      {page === 'about' && <AboutPage />}
+      {page === 'checkout' && <CheckoutPage />}
+
+      {/* Product detail modal */}
+      {detail && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg max-w-3xl w-full p-6">
+            <div className="flex gap-4">
+              <img src={detail.image} alt={detail.title} className="w-1/3 object-cover rounded" />
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold">{detail.title}</h3>
+                <div className="text-sky-600 font-bold mt-1">${detail.price.toFixed(2)}</div>
+                <p className="text-sm text-gray-600 mt-3">{detail.description}</p>
+
+                <div className="mt-4 flex gap-2">
+                  <button className="bg-sky-600 text-white px-3 py-2 rounded" onClick={() => { addToCart(detail); setDetail(null); }}>Add to cart</button>
+                  <button className="border px-3 py-2 rounded" onClick={() => setDetail(null)}>Close</button>
                 </div>
-                
-                <div class="cart-summary" style="flex: 1;">
-                    <h3>Order Summary</h3>
-                    <div id="checkout-items">
-                        <!-- Checkout items will be loaded dynamically -->
-                    </div>
-                    <div class="summary-row">
-                        <span>Subtotal:</span>
-                        <span id="checkout-subtotal">$0.00</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Shipping:</span>
-                        <span id="checkout-shipping">$5.99</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Tax:</span>
-                        <span id="checkout-tax">$0.00</span>
-                    </div>
-                    <div class="summary-row summary-total">
-                        <span>Total:</span>
-                        <span id="checkout-total">$0.00</span>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
+      )}
 
-    <!-- Order Confirmation -->
-    <section id="order-confirmation" class="hidden">
-        <div class="container">
-            <div class="text-center">
-                <div style="font-size: 4rem; color: var(--success); margin-bottom: 1rem;">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h2 class="section-title">Order Confirmed!</h2>
-                <p>Thank you for your purchase. Your order <span id="order-number"></span> has been confirmed.</p>
-                <p class="mb-3">You will receive an email confirmation shortly.</p>
-                <button class="btn btn-primary" onclick="showPage('homepage'); resetCart();">Continue Shopping</button>
-            </div>
+      {/* Cart drawer */}
+      {cart.length > 0 && <CartDrawer />}
+
+      <footer className="bg-slate-800 text-white mt-10">
+        <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div>
+            <h4 className="font-semibold">UrbanFlex</h4>
+            <p className="text-sm text-gray-300 mt-2">Premium casual wear and sportswear prototype.</p>
+          </div>
+          <div>
+            <h4 className="font-semibold">Shop</h4>
+            <ul className="text-sm text-gray-300 mt-2 space-y-1">
+              <li>Casual Wear</li>
+              <li>Sportswear</li>
+              <li>Accessories</li>
+              <li>New Arrivals</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold">Support</h4>
+            <ul className="text-sm text-gray-300 mt-2 space-y-1">
+              <li>Contact Us</li>
+              <li>Shipping</li>
+              <li>Returns</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold">Contact</h4>
+            <p className="text-sm text-gray-300 mt-2">Email: info@urbanflex.com</p>
+            <p className="text-sm text-gray-400 mt-1">Phone: (blank)</p>
+            <p className="text-sm text-gray-400 mt-1">Address: (blank)</p>
+          </div>
         </div>
-    </section>
+        <div className="text-center text-gray-400 py-4">© 2025 UrbanFlex. Prototype only.</div>
+      </footer>
+    </div>
+  );
+}
 
-    <!-- Payment Failed -->
-    <section id="payment-failed" class="hidden">
-        <div class="container">
-            <div class="text-center">
-                <div style="font-size: 4rem; color: var(--danger); margin-bottom: 1rem;">
-                    <i class="fas fa-times-circle"></i>
-                </div>
-                <h2 class="section-title">Payment Failed</h2>
-                <p>We're sorry, but your payment could not be processed.</p>
-                <p class="mb-3">Please try again or use a different payment method.</p>
-                <button class="btn btn-primary" onclick="showPage('checkout')">Try Again</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Admin Panel -->
-    <section id="admin" class="hidden">
-        <div class="container">
-            <h2 class="section-title">Admin Panel</h2>
-            
-            <div class="admin-panel">
-                <div class="admin-header">
-                    <h3>UrbanFlex Store Management</h3>
-                    <p>Manage products, orders, and inventory</p>
-                </div>
-                
-                <div class="admin-nav">
-                    <a href="#" class="active" onclick="showAdminTab('products')">Products</a>
-                    <a href="#" onclick="showAdminTab('orders')">Orders</a>
-                    <a href="#" onclick="showAdminTab('add-product')">Add Product</a>
-                </div>
-                
-                <div class="admin-content">
-                    <!-- Products Tab -->
-                    <div id="admin-products">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                            <h3>Product Management</h3>
-                            <button class="btn btn-primary" onclick="showAdminTab('add-product')">Add New Product</button>
-                        </div>
-                        
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Product</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-products-table">
-                                <!-- Products will be loaded dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Orders Tab -->
-                    <div id="admin-orders" style="display: none;">
-                        <h3>Order Management</h3>
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-orders-table">
-                                <!-- Orders will be loaded dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Add Product Tab -->
-                    <div id="admin-add-product" style="display: none;">
-                        <h3>Add New Product</h3>
-                        <div class="form-group">
-                            <label class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="new-product-name">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control" id="new-product-description" rows="3"></textarea>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Price</label>
-                                <input type="number" class="form-control" id="new-product-price" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Category</label>
-                                <select class="form-control" id="new-product-category">
-                                    <option value="Casual Wear">Casual Wear</option>
-                                    <option value="Sportswear">Sportswear</option>
-                                    <option value="Accessories">Accessories</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Stock Quantity</label>
-                                <input type="number" class="form-control" id="new-product-stock">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Image URL</label>
-                                <input type="text" class="form-control" id="new-product-image">
-                            </div>
-                        </div>
-                        <button class="btn btn-success" onclick="addNewProduct()">Add Product</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>UrbanFlex</h3>
-                    <p>Premium casual wear and sportswear for your active lifestyle. Quality, comfort, and style in every piece.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Shop</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Casual Wear</a></li>
-                        <li><a href="#">Sportswear</a></li>
-                        <li><a href="#">Accessories</a></li>
-                        <li><a href="#">New Arrivals</a></li>
-                        <li><a href="#">Sale</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Shipping Info</a></li>
-                        <li><a href="#">Returns & Exchanges</a></li>
-                        <li><a href="#">Size Guide</a></li>
-                        <li><a href="#">FAQs</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contact</h3>
-                    <ul class="footer-links">
-                        <li>Email: info@urbanflex.com</li>
-                        <li>Phone: (555) 123-4567</li>
-                        <li>Address: 123 Fashion Ave, NY</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2023 UrbanFlex. All rights reserved.
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Data Models
-        let products = [];
-        let cart = [];
-        let orders = [];
-        let selectedPaymentMethod = 'success';
-        let currentProductId = null;
-
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProducts();
-            loadCart();
-            loadOrders();
-            showPage('homepage');
-            updateCartCount();
-        });
-
-        // Product Data
-        function loadProducts() {
-            // In a real app, this would come from an API/database
-            products = [
-                {
-                    id: 1,
-                    name: "Premium Cotton Hoodie",
-                    price: 45.99,
-                    category: "Casual Wear",
-                    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
-                    description: "Our premium cotton hoodie is made from 100% organic cotton for ultimate comfort. Features a relaxed fit, adjustable drawstring hood, and front pocket. Perfect for casual outings or lounging at home.",
-                    stock: 24
-                },
-                {
-                    id: 2,
-                    name: "Performance Running Shoes",
-                    price: 89.99,
-                    category: "Sportswear",
-                    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500",
-                    description: "Engineered for maximum performance, these running shoes feature advanced cushioning technology, breathable mesh upper, and durable rubber outsole. Ideal for both casual joggers and serious runners.",
-                    stock: 15
-                },
-                {
-                    id: 3,
-                    name: "Flex Jogger Pants",
-                    price: 34.99,
-                    category: "Casual Wear",
-                    image: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=500",
-                    description: "Experience ultimate comfort with our flex jogger pants. Made with stretchable fabric and featuring an elastic waistband with drawstring, these pants are perfect for workouts or casual wear.",
-                    stock: 32
-                },
-                {
-                    id: 4,
-                    name: "Yoga Performance Set",
-                    price: 52.99,
-                    category: "Sportswear",
-                    image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500",
-                    description: "This 2-piece yoga set includes a breathable top and high-waist leggings designed for maximum flexibility and comfort. Moisture-wicking fabric keeps you dry during intense workouts.",
-                    stock: 18
-                },
-                {
-                    id: 5,
-                    name: "Classic Cotton T-Shirt",
-                    price: 19.99,
-                    category: "Casual Wear",
-                    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
-                    description: "The essential t-shirt made from 100% premium cotton. Features a classic fit and comfortable feel. Available in multiple colors.",
-                    stock: 45
-                }
-            ];
-            
-            renderProducts();
-            renderAdminProducts();
-        }
-
-        // Cart Management
-        function loadCart() {
-            const savedCart = localStorage.getItem('urbanflex-cart');
-            if (savedCart) {
-                cart = JSON.parse(savedCart);
-            }
-        }
-
-        function saveCart() {
-            localStorage.setItem('urbanflex-cart', JSON.stringify(cart));
-            updateCartCount();
-        }
-
-        function addToCart(productId, size, color, quantity) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            const existingItem = cart.find(item => 
-                item.id === productId && item.size === size && item.color === color
-            );
-
-            if (existingItem) {
-                existingItem.quantity += parseInt(quantity);
-            } else {
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                    size: size,
-                    color: color,
-                    quantity: parseInt(quantity)
-                });
-            }
-
-            saveCart();
-            showToast('Product added to cart!', 'success');
-        }
-
-        function removeFromCart(productId, size, color) {
-            cart = cart.filter(item => 
-                !(item.id === productId && item.size === size && item.color === color)
-            );
-            saveCart();
-            renderCart();
-            showToast('Product removed from cart', 'success');
-        }
-
-        function updateQuantity(productId, size, color, newQuantity) {
-            const item = cart.find(item => 
-                item.id === productId && item.size === size && item.color === color
-            );
-            
-            if (item) {
-                if (newQuantity <= 0) {
-                    removeFromCart(productId, size, color);
-                } else {
-                    item.quantity = newQuantity;
-                    saveCart();
-                    renderCart();
-                }
-            }
-        }
-
-        function getCartTotal() {
-            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-        }
-
-        function updateCartCount() {
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cart-count').textContent = count;
-        }
-
-        function resetCart() {
-            cart = [];
-            saveCart();
-        }
-
-        // Order Management
-        function loadOrders() {
-            const savedOrders = localStorage.getItem('urbanflex-orders');
-            if (savedOrders) {
-                orders = JSON.parse(savedOrders);
-            }
-            renderAdminOrders();
-        }
-
-        function saveOrders() {
-            localStorage.setItem('urbanflex-orders', JSON.stringify(orders));
-        }
-
-        function createOrder(customerInfo, cartItems, total) {
-            const order = {
-                id: 'UF' + Date.now(),
-                date: new Date().toISOString(),
-                customer: customerInfo,
-                items: [...cartItems],
-                total: total,
-                status: 'confirmed'
-            };
-            
-            orders.push(order);
-            saveOrders();
-            renderAdminOrders();
-            return order;
-        }
-
-        // Rendering Functions
-        function renderProducts() {
-            const grid = document.getElementById('products-grid');
-            grid.innerHTML = '';
-
-            products.forEach(product => {
-                const productCard = `
-                    <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <div class="product-info">
-                            <div class="product-category">${product.category}</div>
-                            <h3 class="product-title">${product.name}</h3>
-                            <div class="product-price">$${product.price.toFixed(2)}</div>
-                            <div class="product-actions">
-                                <button class="btn btn-primary" onclick="showProductDetail(${product.id})">View Details</button>
-                                <button class="btn btn-outline" onclick="addToCart(${product.id}, 'M', 'Black', 1); showToast('Product added to cart!', 'success')">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                grid.innerHTML += productCard;
-            });
-        }
-
-        function renderCart() {
-            const cartContainer = document.getElementById('cart-items');
-            const cartSummary = document.getElementById('cart-summary');
-            const emptyMessage = document.getElementById('empty-cart-message');
-
-            if (cart.length === 0) {
-                cartContainer.innerHTML = '';
-                cartContainer.appendChild(emptyMessage);
-                cartSummary.style.display = 'none';
-                return;
-            }
-
-            emptyMessage.style.display = 'none';
-            cartSummary.style.display = 'block';
-
-            let cartHTML = '';
-            cart.forEach(item => {
-                cartHTML += `
-                    <div class="cart-item">
-                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-                        <div class="cart-item-details">
-                            <h3 class="cart-item-title">${item.name}</h3>
-                            <div class="cart-item-meta">Size: ${item.size} | Color: ${item.color}</div>
-                            <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
-                        </div>
-                        <div class="cart-item-actions">
-                            <div class="quantity-control">
-                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, '${item.size}', '${item.color}', ${item.quantity - 1})">-</button>
-                                <span class="quantity">${item.quantity}</span>
-                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, '${item.size}', '${item.color}', ${item.quantity + 1})">+</button>
-                            </div>
-                            <button class="remove-btn" onclick="removeFromCart(${item.id}, '${item.size}', '${item.color}')">Remove</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            cartContainer.innerHTML = cartHTML;
-
-            // Update summary
-            const subtotal = getCartTotal();
-            const tax = subtotal * 0.08; // 8% tax
-            const shipping = 5.99;
-            const total = subtotal + tax + shipping;
-
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
-        }
-
-        function renderCheckout() {
-            const checkoutItems = document.getElementById('checkout-items');
-            checkoutItems.innerHTML = '';
-
-            cart.forEach(item => {
-                checkoutItems.innerHTML += `
-                    <div class="summary-row">
-                        <span>${item.name} (${item.size})</span>
-                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
-                    </div>
-                `;
-            });
-
-            const subtotal = getCartTotal();
-            const tax = subtotal * 0.08;
-            const shipping = 5.99;
-            const total = subtotal + tax + shipping;
-
-            document.getElementById('checkout-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('checkout-tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('checkout-total').textContent = `$${total.toFixed(2)}`;
-        }
-
-        function renderAdminProducts() {
-            const table = document.getElementById('admin-products-table');
-            table.innerHTML = '';
-
-            products.forEach(product => {
-                table.innerHTML += `
-                    <tr>
-                        <td>UF${product.id.toString().padStart(3, '0')}</td>
-                        <td>${product.name}</td>
-                        <td>${product.category}</td>
-                        <td>$${product.price.toFixed(2)}</td>
-                        <td>${product.stock}</td>
-                        <td>
-                            <button class="action-btn edit-btn">Edit</button>
-                            <button class="action-btn delete-btn" onclick="deleteProduct(${product.id})">Delete</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function renderAdminOrders() {
-            const table = document.getElementById('admin-orders-table');
-            table.innerHTML = '';
-
-            if (orders.length === 0) {
-                table.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="text-center">No orders yet</td>
-                    </tr>
-                `;
-                return;
-            }
-
-            orders.forEach(order => {
-                table.innerHTML += `
-                    <tr>
-                        <td>${order.id}</td>
-                        <td>${order.customer.name}</td>
-                        <td>${new Date(order.date).toLocaleDateString()}</td>
-                        <td>$${order.total.toFixed(2)}</td>
-                        <td>${order.status}</td>
-                        <td>
-                            <button class="action-btn edit-btn">View</button>
-                            <button class="action-btn delete-btn">Cancel</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        // Page Navigation
-        function showPage(pageId) {
-            document.querySelectorAll('section').forEach(section => {
-                section.classList.add('hidden');
-            });
-            document.getElementById(pageId).classList.remove('hidden');
-
-            if (pageId === 'cart') {
-                renderCart();
-            } else if (pageId === 'checkout') {
-                renderCheckout();
-            }
-        }
-
-        function showProductDetail(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            currentProductId = productId;
-            document.getElementById('detail-title').textContent = product.name;
-            document.getElementById('detail-price').textContent = `$${product.price.toFixed(2)}`;
-            document.getElementById('detail-image').src = product.image;
-            document.getElementById('detail-description').textContent = product.description;
-
-            // Set up add to cart button
-            document.getElementById('add-to-cart-btn').onclick = function() {
-                const size = document.getElementById('size-select').value;
-                const color = document.getElementById('color-select').value;
-                const quantity = document.getElementById('quantity-select').value;
-                addToCart(productId, size, color, quantity);
-            };
-
-            showPage('product-detail');
-        }
-
-        function showAdminTab(tabId) {
-            // Hide all tabs
-            document.getElementById('admin-products').style.display = 'none';
-            document.getElementById('admin-orders').style.display = 'none';
-            document.getElementById('admin-add-product').style.display = 'none';
-
-            // Remove active class from all nav items
-            document.querySelectorAll('.admin-nav a').forEach(a => {
-                a.classList.remove('active');
-            });
-
-            // Show selected tab and set active nav
-            document.getElementById('admin-' + tabId).style.display = 'block';
-            event.target.classList.add('active');
-        }
-
-        // Payment Processing
-        function selectPaymentMethod(method) {
-            selectedPaymentMethod = method;
-            
-            // Update UI
-            document.querySelectorAll('.payment-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.closest('.payment-btn').classList.add('active');
-        }
-
-        function processOrder() {
-            // Validate form
-            const name = document.getElementById('full-name').value;
-            const email = document.getElementById('email').value;
-            const address = document.getElementById('address').value;
-            
-            if (!name || !email || !address) {
-                showToast('Please fill in all required fields', 'error');
-                return;
-            }
-
-            const customerInfo = {
-                name: name,
-                email: email,
-                address: address,
-                city: document.getElementById('city').value,
-                state: document.getElementById('state').value,
-                zip: document.getElementById('zip').value
-            };
-
-            // Simulate payment processing
-            if (selectedPaymentMethod === 'success') {
-                // Successful payment
-                const order = createOrder(customerInfo, cart, getCartTotal() + (getCartTotal() * 0.08) + 5.99);
-                document.getElementById('order-number').textContent = order.id;
-                showPage('order-confirmation');
-                resetCart();
-            } else {
-                // Failed payment
-                showPage('payment-failed');
-            }
-        }
-
-        // Admin Functions
-        function addNewProduct() {
-            const name = document.getElementById('new-product-name').value;
-            const description = document.getElementById('new-product-description').value;
-            const price = parseFloat(document.getElementById('new-product-price').value);
-            const category = document.getElementById('new-product-category').value;
-            const stock = parseInt(document.getElementById('new-product-stock').value);
-            const image = document.getElementById('new-product-image').value;
-
-            if (!name || !description || !price || !stock) {
-                showToast('Please fill in all fields', 'error');
-                return;
-            }
-
-            const newProduct = {
-                id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
-                name: name,
-                description: description,
-                price: price,
-                category: category,
-                stock: stock,
-                image: image || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500'
-            };
-
-            products.push(newProduct);
-            renderProducts();
-            renderAdminProducts();
-            
-            // Reset form
-            document.getElementById('new-product-name').value = '';
-            document.getElementById('new-product-description').value = '';
-            document.getElementById('new-product-price').value = '';
-            document.getElementById('new-product-stock').value = '';
-            document.getElementById('new-product-image').value = '';
-            
-            showToast('Product added successfully!', 'success');
-            showAdminTab('products');
-        }
-
-        function deleteProduct(productId) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                products = products.filter(p => p.id !== productId);
-                renderProducts();
-                renderAdminProducts();
-                showToast('Product deleted successfully', 'success');
-            }
-        }
-
-        // Utility Functions
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast';
-            
-            if (type === 'error') {
-                toast.classList.add('error');
-            }
-            
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Initialize cart rendering when page loads
-        window.onload = function() {
-            renderCart();
-        };
-    </script>
-</body>
-</html>
