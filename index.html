@@ -1,213 +1,1048 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>UrbanFlex Store</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanFlex - Premium Casual & Sportswear</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f5f5f5;
-    }
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Navbar */
-    header {
-        background: #ffffff;
-        padding: 15px 25px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
 
-    header h1 {
-        margin: 0;
-        font-size: 22px;
-        color: #0077cc;
-        font-weight: bold;
-    }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    nav a {
-        margin-left: 20px;
-        text-decoration: none;
-        color: #555;
-        font-size: 15px;
-        font-weight: 600;
-    }
+        /* Header & Navigation */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    nav a:hover {
-        color: #0077cc;
-    }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
 
-    /* Sections */
-    section {
-        padding: 50px 20px;
-        max-width: 1100px;
-        margin: auto;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
 
-    .hero {
-        background: linear-gradient(to right, #0077cc, #005fa3);
-        color: white;
-        text-align: center;
-        padding: 70px 20px;
-        border-radius: 10px;
-        margin-top: 20px;
-    }
+        .logo i {
+            margin-right: 0.5rem;
+        }
 
-    .btn {
-        background: white;
-        color: #0077cc;
-        padding: 10px 20px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        font-weight: bold;
-    }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
 
-    .container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 25px;
-        margin-top: 30px;
-    }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
 
-    .card {
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
 
-    .card img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-        border-radius: 6px;
-    }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
 
-    .card h3 {
-        margin: 10px 0 5px;
-    }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-    .footer {
-        background: #222;
-        color: white;
-        text-align: center;
-        padding: 25px;
-        margin-top: 40px;
-    }
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
 
-    .footer p {
-        margin: 5px 0;
-    }
-</style>
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
 
-<script>
-function goTo(section) {
-    document.getElementById(section).scrollIntoView({ behavior: "smooth" });
-}
-</script>
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
 
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            opacity: 0.9;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 1.2rem;
+            color: var(--secondary);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Categories Section */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .category-description {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem 0 0 0.5rem;
+            font-size: 1rem;
+        }
+
+        .newsletter-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .newsletter-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mt-3 { margin-top: 3rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mb-3 { margin-bottom: 3rem; }
+        .hidden { display: none; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 1rem;
+                gap: 1rem;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-input {
+                border-radius: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .newsletter-btn {
+                border-radius: 0.5rem;
+                padding: 0.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <a href="#" class="logo" onclick="showPage('home')">
+                    <i class="fas fa-tshirt"></i> UrbanFlex
+                </a>
+                
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="#" class="active" onclick="showPage('home')">Home</a>
+                    <a href="#" onclick="showPage('products')">Products</a>
+                    <a href="#" onclick="showPage('categories')">Categories</a>
+                    <a href="#" onclick="showPage('about')">About</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <div class="cart-icon" onclick="showPage('cart')">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <a href="#" class="btn btn-outline" onclick="showPage('login')">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<!-- NAVBAR -->
-<header>
-    <h1>UrbanFlex Store</h1>
-    <nav>
-        <a href="javascript:goTo('home')">Home</a>
-        <a href="javascript:goTo('products')">Products</a>
-        <a href="javascript:goTo('categories')">Categories</a>
-        <a href="javascript:goTo('about')">About</a>
-    </nav>
-</header>
-
-<!-- HOME -->
-<section id="home">
-    <div class="hero">
-        <h1>Style Meets Performance</h1>
-        <p>Premium casual wear and sportswear for active lifestyles.</p>
-        <button class="btn" onclick="goTo('products')">Start Shopping</button>
-    </div>
-</section>
-
-<!-- PRODUCTS -->
-<section id="products">
-    <h2>Products</h2>
-
-    <div class="container">
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=60">
-            <h3>Premium Cotton Hoodie</h3>
-            <p>RM45.99</p>
+    <!-- Home Page -->
+    <section id="home" class="page">
+        <div class="hero">
+            <div class="container">
+                <h1>Elevate Your Everyday Style</h1>
+                <p>Discover the perfect blend of comfort and fashion with our premium collection of casual wear and high-performance sportswear.</p>
+                <a href="#" class="btn btn-primary" onclick="showPage('products')">Shop Collection</a>
+            </div>
         </div>
 
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=60">
-            <h3>Running Shoes</h3>
-            <p>RM89.99</p>
+        <div class="container">
+            <!-- Featured Products -->
+            <div class="section">
+                <h2 class="section-title">Featured Products</h2>
+                <p class="section-subtitle">Handpicked items from our latest collection</p>
+                
+                <div class="products-grid" id="featured-products">
+                    <!-- Featured products will be loaded here -->
+                </div>
+                
+                <div class="text-center">
+                    <a href="#" class="btn btn-outline" onclick="showPage('products')">View All Products</a>
+                </div>
+            </div>
+
+            <!-- Categories Preview -->
+            <div class="section">
+                <h2 class="section-title">Shop By Category</h2>
+                <p class="section-subtitle">Find exactly what you're looking for</p>
+                
+                <div class="categories-grid">
+                    <div class="category-card" onclick="showPage('categories')">
+                        <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600" alt="Casual Wear" class="category-image">
+                        <div class="category-content">
+                            <h3 class="category-title">Casual Wear</h3>
+                            <p class="category-description">Everyday comfort with style</p>
+                            <a href="#" class="btn btn-outline">Explore</a>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card" onclick="showPage('categories')">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600" alt="Sportswear" class="category-image">
+                        <div class="category-content">
+                            <h3 class="category-title">Sportswear</h3>
+                            <p class="category-description">Performance and durability</p>
+                            <a href="#" class="btn btn-outline">Explore</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=800&q=60">
-            <h3>Flex Jogger Pants</h3>
-            <p>RM34.99</p>
+    <!-- Products Page -->
+    <section id="products" class="page hidden">
+        <div class="container">
+            <div class="section">
+                <h2 class="section-title">All Products</h2>
+                <p class="section-subtitle">Browse our complete collection</p>
+                
+                <div class="products-grid" id="all-products">
+                    <!-- All products will be loaded here -->
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=800&q=60">
-            <h3>Yoga Performance Set</h3>
-            <p>RM52.99</p>
+    <!-- Categories Page -->
+    <section id="categories" class="page hidden">
+        <div class="container">
+            <div class="section">
+                <h2 class="section-title">Product Categories</h2>
+                <p class="section-subtitle">Find your perfect style</p>
+                
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600" alt="Casual Wear" class="category-image">
+                        <div class="category-content">
+                            <h3 class="category-title">Casual Wear</h3>
+                            <p class="category-description">Perfect for everyday comfort and style. Our casual collection includes t-shirts, hoodies, jeans, and more.</p>
+                            <a href="#" class="btn btn-outline" onclick="filterProducts('Casual Wear')">View Collection</a>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600" alt="Sportswear" class="category-image">
+                        <div class="category-content">
+                            <h3 class="category-title">Sportswear</h3>
+                            <p class="category-description">Designed for performance and durability. Perfect for workouts, running, and active lifestyles.</p>
+                            <a href="#" class="btn btn-outline" onclick="filterProducts('Sportswear')">View Collection</a>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600" alt="Accessories" class="category-image">
+                        <div class="category-content">
+                            <h3 class="category-title">Accessories</h3>
+                            <p class="category-description">Complete your look with our selection of hats, bags, and other accessories.</p>
+                            <a href="#" class="btn btn-outline" onclick="filterProducts('Accessories')">View Collection</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- CATEGORIES -->
-<section id="categories">
-    <h2>Categories</h2>
-
-    <div class="container">
-        <div class="card">
-            <h3>Casual Wear</h3>
-            <p>Comfort clothing for daily wear.</p>
+    <!-- About Page -->
+    <section id="about" class="page hidden">
+        <div class="container">
+            <div class="section">
+                <h2 class="section-title">About UrbanFlex</h2>
+                <p class="section-subtitle">Our story, mission, and values</p>
+                
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600" alt="Our Store">
+                    </div>
+                    <div class="about-text">
+                        <h3>Where Style Meets Comfort</h3>
+                        <p>Founded in 2020, UrbanFlex emerged from a simple idea: clothing should be both stylish and comfortable enough for everyday life. We believe you shouldn't have to choose between looking good and feeling good.</p>
+                        <p>Our collections are carefully curated to provide versatile pieces that transition seamlessly from casual outings to active pursuits. Each item is designed with attention to detail, quality materials, and a perfect fit.</p>
+                        <p>At UrbanFlex, we're committed to sustainable practices and ethical manufacturing. We partner with suppliers who share our values and work continuously to reduce our environmental footprint.</p>
+                        
+                        <div class="features">
+                            <div class="feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h4 class="feature-title">Sustainable</h4>
+                                <p>Eco-friendly materials and processes</p>
+                            </div>
+                            <div class="feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <h4 class="feature-title">Quality</h4>
+                                <p>Premium materials and craftsmanship</p>
+                            </div>
+                            <div class="feature">
+                                <div class="feature-icon">
+                                    <i class="fas fa-shipping-fast"></i>
+                                </div>
+                                <h4 class="feature-title">Fast Shipping</h4>
+                                <p>Free delivery on orders over $50</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="card">
-            <h3>Sportswear</h3>
-            <p>Performance gear for all activities.</p>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>UrbanFlex</h3>
+                    <p>Premium casual wear and sportswear for your active lifestyle. Quality, comfort, and style in every piece.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showPage('home')">Home</a></li>
+                        <li><a href="#" onclick="showPage('products')">Products</a></li>
+                        <li><a href="#" onclick="showPage('categories')">Categories</a></li>
+                        <li><a href="#" onclick="showPage('about')">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get updates on new arrivals and special offers.</p>
+                    <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                        <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                        <button type="submit" class="newsletter-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 UrbanFlex. All rights reserved.
+            </div>
         </div>
+    </footer>
 
-        <div class="card">
-            <h3>Accessories</h3>
-            <p>Bags, caps, and more.</p>
-        </div>
-    </div>
-</section>
+    <script>
+        // Product Data
+        const products = [
+            {
+                id: 1,
+                name: "Premium Cotton Hoodie",
+                price: 45.99,
+                category: "Casual Wear",
+                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+                description: "Our premium cotton hoodie is made from 100% organic cotton for ultimate comfort.",
+                featured: true,
+                badge: "Bestseller"
+            },
+            {
+                id: 2,
+                name: "Performance Running Shoes",
+                price: 89.99,
+                category: "Sportswear",
+                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500",
+                description: "Engineered for maximum performance with advanced cushioning technology.",
+                featured: true,
+                badge: "New"
+            },
+            {
+                id: 3,
+                name: "Flex Jogger Pants",
+                price: 34.99,
+                category: "Casual Wear",
+                image: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=500",
+                description: "Experience ultimate comfort with our flex jogger pants.",
+                featured: true
+            },
+            {
+                id: 4,
+                name: "Yoga Performance Set",
+                price: 52.99,
+                category: "Sportswear",
+                image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500",
+                description: "2-piece yoga set for maximum flexibility and comfort.",
+                featured: false
+            },
+            {
+                id: 5,
+                name: "Classic Cotton T-Shirt",
+                price: 19.99,
+                category: "Casual Wear",
+                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+                description: "The essential t-shirt made from 100% premium cotton.",
+                featured: false
+            },
+            {
+                id: 6,
+                name: "Training Shorts",
+                price: 29.99,
+                category: "Sportswear",
+                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500",
+                description: "Quick-dry training shorts with pockets.",
+                featured: false
+            },
+            {
+                id: 7,
+                name: "Athletic Socks (3-Pack)",
+                price: 14.99,
+                category: "Accessories",
+                image: "https://images.unsplash.com/photo-1586351934193-430b2e0a4c5e?w=500",
+                description: "Comfortable athletic socks for all your activities.",
+                featured: false,
+                badge: "Sale"
+            },
+            {
+                id: 8,
+                name: "Sports Backpack",
+                price: 39.99,
+                category: "Accessories",
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500",
+                description: "Durable backpack with multiple compartments.",
+                featured: false
+            }
+        ];
 
-<!-- ABOUT -->
-<section id="about">
-    <h2>About Us</h2>
+        // Cart functionality
+        let cart = [];
 
-    <div class="card">
-        <p>UrbanFlex is a fictional e-commerce prototype designed for demo and portfolio use.</p>
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeaturedProducts();
+            loadAllProducts();
+            updateCartCount();
+        });
 
-        <h3>Contact:</h3>
-        <p>Email: info@urbanflex.com</p>
-        <p>Phone: (blank)</p>
-        <p>Address: (blank)</p>
-    </div>
-</section>
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Set active class on the clicked link
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
 
-<!-- FOOTER -->
-<div class="footer">
-    <p>© 2025 UrbanFlex Store — Prototype Only</p>
-</div>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
 
+        // Load Featured Products
+        function loadFeaturedProducts() {
+            const featuredContainer = document.getElementById('featured-products');
+            featuredContainer.innerHTML = '';
+            
+            const featuredProducts = products.filter(product => product.featured);
+            
+            featuredProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                featuredContainer.innerHTML += productCard;
+            });
+        }
+
+        // Load All Products
+        function loadAllProducts() {
+            const allProductsContainer = document.getElementById('all-products');
+            allProductsContainer.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = createProductCard(product);
+                allProductsContainer.innerHTML += productCard;
+            });
+        }
+
+        // Create Product Card HTML
+        function createProductCard(product) {
+            return `
+                <div class="product-card">
+                    ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">${product.category}</div>
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <p>${product.description}</p>
+                        <div class="product-actions mt-2">
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})">Add to Cart</button>
+                            <button class="btn btn-outline">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Filter Products by Category
+        function filterProducts(category) {
+            showPage('products');
+            
+            const allProductsContainer = document.getElementById('all-products');
+            allProductsContainer.innerHTML = '';
+            
+            const filteredProducts = products.filter(product => product.category === category);
+            
+            if (filteredProducts.length === 0) {
+                allProductsContainer.innerHTML = '<p class="text-center">No products found in this category.</p>';
+                return;
+            }
+            
+            filteredProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                allProductsContainer.innerHTML += productCard;
+            });
+        }
+
+        // Cart Functions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            showNotification(`${product.name} added to cart!`);
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = count;
+        }
+
+        // Newsletter Subscription
+        function subscribeNewsletter(event) {
+            event.preventDefault();
+            const emailInput = event.target.querySelector('input[type="email"]');
+            const email = emailInput.value;
+            
+            // In a real app, you would send this to a server
+            showNotification(`Thank you for subscribing with ${email}!`);
+            emailInput.value = '';
+        }
+
+        // Notification System
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--success);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.5rem;
+                box-shadow: var(--shadow-lg);
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s;
+                max-width: 300px;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                const navLinks = document.getElementById('navLinks');
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
